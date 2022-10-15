@@ -6,8 +6,7 @@ const { body, validationResult } = require('express-validator');
 
 // ROUTE 1: Get All the Notes using: GET "/api/notes/getuser". Login required
 router.get('/fetchallnotes', fetchuser, async (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*');
-
+    // res.set('Access-Control-Allow-Origin', '*');
     try {
         const notes = await Note.find({ user: req.user.id });
         res.json(notes)
@@ -22,8 +21,8 @@ router.post('/addnote', fetchuser, [
     
     body('title', 'Enter a valid title').isLength({ min: 3 }),
     body('description', 'Description must be atleast 5 characters').isLength({ min: 5 }),], async (req, res) => {
+      
         try {
-            addnote
             const { title, description, tag } = req.body;
 
             // If there are errors, return Bad request and the errors
@@ -38,7 +37,7 @@ router.post('/addnote', fetchuser, [
 
             res.json(savedNote)
 
-        } catch (error) {
+        }catch (error) {
             console.error(error.message);
             res.status(500).send("Internal Server Error");
         }
